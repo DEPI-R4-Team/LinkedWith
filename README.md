@@ -1,2 +1,2 @@
 # LinkedWith
-A website where students can request an instructor for a specific skill, like AI, programming, math, electronics, or English. The student posts what they need, then available instructors can apply or accept the request.
+LinkedWith is a freelance-style platform that connects students with instructors based on subject, budget, level, and availability. Students can request instructors for topics like AI, programming, and engineering, while instructors can apply, manage bookings, and build their profiles.
