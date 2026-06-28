@@ -338,3 +338,34 @@
         @apply font-sans;
     }
 }
+
+/* ── Custom scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--surface-variant); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--outline-variant); }
+
+/* ── Ambient glow animation ─────────────────────────────────────────────── */
+@keyframes subtlePulse {
+    0%, 100% {
+        opacity: 0.1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.15;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+.ambient-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--primary-container) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: subtlePulse 8s ease-in-out infinite;
+}
