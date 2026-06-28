@@ -3,6 +3,7 @@ import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LoginPage } from "@/pages/auth/LoginPage";
+import { RegisterPage } from "@/pages/auth/RegisterPage";
 import { NotFoundPage } from "@/pages/shared/NotFoundPage";
 import { ROUTES } from "@/lib/routes";
 
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       { path: ROUTES.LOGIN, element: <LoginPage /> },
-      // { path: ROUTES.REGISTER, element: <RegisterPage /> },
+      { path: ROUTES.REGISTER, element: <RegisterPage /> },
       // { path: ROUTES.FORGOT_PASSWORD, element: <ForgotPasswordPage /> },
     ],
   },
