@@ -10,7 +10,7 @@
     --font-heading: var(--font-sans);
     --font-sans: 'Inter Variable', sans-serif;
 
-    /* GradConnect font-family scale (all Inter) */
+    /* EduMatch font-family scale (all Inter) */
     --font-headline-xl: 'Inter Variable', sans-serif;
     --font-headline-lg: 'Inter Variable', sans-serif;
     --font-headline-lg-mobile: 'Inter Variable', sans-serif;
@@ -20,7 +20,7 @@
     --font-body-sm: 'Inter Variable', sans-serif;
     --font-label-md: 'Inter Variable', sans-serif;
 
-    /* GradConnect typography scale */
+    /* EduMatch typography scale */
     --text-headline-xl: 36px;
     --text-headline-xl--line-height: 44px;
     --text-headline-xl--letter-spacing: -0.02em;
@@ -56,7 +56,7 @@
     --text-label-md--letter-spacing: 0.05em;
     --text-label-md--font-weight: 600;
 
-    /* GradConnect spacing scale */
+    /* EduMatch spacing scale */
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
@@ -103,7 +103,7 @@
     --color-foreground: var(--foreground);
     --color-background: var(--background);
 
-    /* GradConnect Material Design 3 extended palette */
+    /* EduMatch Material Design 3 extended palette */
     --color-on-primary: var(--on-primary);
     --color-on-primary-fixed: var(--on-primary-fixed);
     --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
@@ -154,7 +154,7 @@
     --color-inverse-surface: var(--inverse-surface);
     --color-inverse-on-surface: var(--inverse-on-surface);
 
-    /* Border radius — GradConnect values */
+    /* Border radius — EduMatch values */
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -200,7 +200,7 @@
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
 
-    /* GradConnect MD3 extended (light fallback = same as dark for now) */
+    /* EduMatch MD3 extended (light fallback = same as dark for now) */
     --on-primary: #1000a9;
     --on-primary-fixed: #07006c;
     --on-primary-fixed-variant: #2f2ebe;
@@ -246,7 +246,7 @@
     --inverse-on-surface: #303038;
 }
 
-/* GradConnect dark theme */
+/* EduMatch dark theme */
 .dark {
     --background: #13131b;
     --foreground: #e4e1ed;
@@ -280,7 +280,7 @@
     --sidebar-border: #464554;
     --sidebar-ring: #c0c1ff;
 
-    /* GradConnect MD3 extended */
+    /* EduMatch MD3 extended */
     --on-primary: #1000a9;
     --on-primary-fixed: #07006c;
     --on-primary-fixed-variant: #2f2ebe;

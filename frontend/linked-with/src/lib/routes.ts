@@ -6,6 +6,18 @@ export const ROUTES = {
   STUDENT: {
     ROOT: "/student",
     DASHBOARD: "/student/dashboard",
+    REQUESTS: "/student/requests",
+    REQUEST_DETAILS: "/student/requests/:id",
+    REQUEST_CREATE: "/student/requests/create",
+    INSTRUCTORS: "/student/instructors",
+    INSTRUCTOR_DETAILS: "/student/instructors/:instructorId",
+    CHAT: "/student/chat",
+    SESSIONS: "/student/sessions",
+    SESSION_DETAILS: "/student/sessions/:sessionId",
+    PAYMENTS: "/student/payments",
+    PAYMENT_CONFIRMATION: "/student/payments/session/:sessionId",
+    PROFILE: "/student/profile",
+    SETTINGS: "/student/settings",
   },
   INSTRUCTOR: {
     ROOT: "/instructor",

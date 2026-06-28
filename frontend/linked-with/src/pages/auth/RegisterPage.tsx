@@ -21,7 +21,7 @@ export function RegisterPage() {
         {/* Header */}
         <header className="text-center mb-xl">
           <h1 className="text-headline-md font-headline-md text-primary mb-sm">
-            GradConnect
+            EduMatch
           </h1>
           <h2 className="text-headline-lg font-headline-lg text-on-surface mb-xs hidden md:block">
             Create an Account
