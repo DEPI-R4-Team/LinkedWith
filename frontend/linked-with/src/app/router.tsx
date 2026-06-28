@@ -1,24 +1,32 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
 import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { MainLayout } from "@/components/layouts/MainLayout";
+import { PublicLayout } from "@/components/layouts/PublicLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { LoginPage } from "@/pages/auth/LoginPage";
-import { RegisterPage } from "@/pages/auth/RegisterPage";
-import { NotFoundPage } from "@/pages/shared/NotFoundPage";
 import { ROUTES } from "@/lib/routes";
 
+// Lazy-loaded pages — each becomes its own JS chunk.
+// Suspense in main.tsx catches these and shows LoadingScreen.
+const HomePage     = lazy(() => import("@/pages/public/HomePage").then((m) => ({ default: m.HomePage })));
+const LoginPage    = lazy(() => import("@/pages/auth/LoginPage").then((m) => ({ default: m.LoginPage })));
+const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage").then((m) => ({ default: m.RegisterPage })));
+const NotFoundPage = lazy(() => import("@/pages/shared/NotFoundPage").then((m) => ({ default: m.NotFoundPage })));
+
 export const router = createBrowserRouter([
-  // Root → temporary redirect until dashboard pages are ready
+  // ── Public (landing + marketing) ────────────────────────────────────────
   {
-    path: ROUTES.HOME,
-    element: <Navigate to={ROUTES.LOGIN} replace />,
+    element: <PublicLayout />,
+    children: [
+      { path: ROUTES.HOME, element: <HomePage /> },
+    ],
   },
 
-  // ── Public (guest) ──────────────────────────────────────────────────────
+  // ── Auth (no navbar/footer) ──────────────────────────────────────────────
   {
     element: <AuthLayout />,
     children: [
-      { path: ROUTES.LOGIN, element: <LoginPage /> },
+      { path: ROUTES.LOGIN,    element: <LoginPage /> },
       { path: ROUTES.REGISTER, element: <RegisterPage /> },
       // { path: ROUTES.FORGOT_PASSWORD, element: <ForgotPasswordPage /> },
     ],
