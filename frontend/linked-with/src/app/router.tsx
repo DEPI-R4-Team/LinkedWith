@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import { StudentDashboardLayout } from "@/components/layout/StudentDashboardLayout";
+import { InstructorDashboardLayout } from "@/components/layout/InstructorDashboardLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { RegisterPage } from "@/pages/auth/RegisterPage";
@@ -12,6 +13,17 @@ import { PaymentConfirmationPage } from "@/pages/student/PaymentConfirmationPage
 import { PaymentsPage } from "@/pages/student/PaymentsPage";
 import { ProfilePage } from "@/pages/student/ProfilePage";
 import { InstructorProfilePage } from "@/pages/student/InstructorProfilePage";
+import { InstructorDashboardPage } from "@/pages/instructor/InstructorDashboardPage";
+import { InstructorProjectsPage } from "@/pages/instructor/InstructorProjectsPage";
+import { InstructorProjectDetailsPage } from "@/pages/instructor/InstructorProjectDetailsPage";
+import { InstructorRequestsPage } from "@/pages/instructor/InstructorRequestsPage";
+import { InstructorSessionsPage } from "@/pages/instructor/InstructorSessionsPage";
+import { InstructorSessionDetailsPage } from "@/pages/instructor/InstructorSessionDetailsPage";
+import { InstructorChatPage } from "@/pages/instructor/InstructorChatPage";
+import { InstructorWalletPage } from "@/pages/instructor/InstructorWalletPage";
+import { InstructorReviewsPage } from "@/pages/instructor/InstructorReviewsPage";
+import { InstructorProfilePage as InstructorOwnProfilePage } from "@/pages/instructor/InstructorProfilePage";
+import { InstructorSettingsPage } from "@/pages/instructor/InstructorSettingsPage";
 import { RequestDetailsPage } from "@/pages/student/RequestDetailsPage";
 import { SessionDetailsPage } from "@/pages/student/SessionDetailsPage";
 import { SessionsPage } from "@/pages/student/SessionsPage";
@@ -68,9 +80,19 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={["instructor"]} />,
     children: [
       {
-        element: <MainLayout />,
+        element: <InstructorDashboardLayout />,
         children: [
-          // { path: ROUTES.INSTRUCTOR.DASHBOARD, element: <InstructorDashboardPage /> },
+          { path: ROUTES.INSTRUCTOR.DASHBOARD, element: <InstructorDashboardPage /> },
+          { path: ROUTES.INSTRUCTOR.PROJECTS, element: <InstructorProjectsPage /> },
+          { path: ROUTES.INSTRUCTOR.PROJECT_DETAILS, element: <InstructorProjectDetailsPage /> },
+          { path: ROUTES.INSTRUCTOR.REQUESTS, element: <InstructorRequestsPage /> },
+          { path: ROUTES.INSTRUCTOR.SESSIONS, element: <InstructorSessionsPage /> },
+          { path: ROUTES.INSTRUCTOR.SESSION_DETAILS, element: <InstructorSessionDetailsPage /> },
+          { path: ROUTES.INSTRUCTOR.CHAT, element: <InstructorChatPage /> },
+          { path: ROUTES.INSTRUCTOR.WALLET, element: <InstructorWalletPage /> },
+          { path: ROUTES.INSTRUCTOR.REVIEWS, element: <InstructorReviewsPage /> },
+          { path: ROUTES.INSTRUCTOR.PROFILE, element: <InstructorOwnProfilePage /> },
+          { path: ROUTES.INSTRUCTOR.SETTINGS, element: <InstructorSettingsPage /> },
         ],
       },
     ],

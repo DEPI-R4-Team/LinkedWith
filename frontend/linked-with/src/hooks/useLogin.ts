@@ -33,11 +33,11 @@ export function useLogin() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       const roleDestination: Record<UserRole, string> = {
-        student: ROUTES.STUDENT.ROOT,
-        instructor: ROUTES.INSTRUCTOR.ROOT,
-        admin: ROUTES.ADMIN.ROOT,
+        student: ROUTES.STUDENT.DASHBOARD,
+        instructor: ROUTES.INSTRUCTOR.DASHBOARD,
+        admin: ROUTES.ADMIN.DASHBOARD,
       };
-      navigate(from !== ROUTES.LOGIN ? from : roleDestination[user.role], {
+      navigate(from !== ROUTES.LOGIN && from !== ROUTES.HOME ? from : roleDestination[user.role], {
         replace: true,
       });
     } catch (err: unknown) {

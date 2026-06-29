@@ -22,6 +22,16 @@ export const ROUTES = {
   INSTRUCTOR: {
     ROOT: "/instructor",
     DASHBOARD: "/instructor/dashboard",
+    PROJECTS: "/instructor/projects",
+    PROJECT_DETAILS: "/instructor/projects/:id",
+    REQUESTS: "/instructor/requests",
+    SESSIONS: "/instructor/sessions",
+    SESSION_DETAILS: "/instructor/sessions/:sessionId",
+    CHAT: "/instructor/chat",
+    WALLET: "/instructor/wallet",
+    REVIEWS: "/instructor/reviews",
+    PROFILE: "/instructor/profile",
+    SETTINGS: "/instructor/settings",
   },
   ADMIN: {
     ROOT: "/admin",
