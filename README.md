@@ -1,6 +1,6 @@
-# GradConnect
+# EduMatch
 
-GradConnect is a graduation project web platform that connects students with instructors. Students will be able to create learning requests, instructors will be able to apply, and accepted matches will later support chat, scheduling, simulated escrow payments, and reviews.
+EduMatch is a graduation project web platform that connects students with instructors. Students will be able to create learning requests, instructors will be able to apply, and accepted matches will later support chat, scheduling, simulated escrow payments, and reviews.
 
 This repository currently contains the initial monorepo structure only. Features are intentionally not implemented yet.
 
