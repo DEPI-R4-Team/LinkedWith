@@ -6,6 +6,7 @@ env/
 
 # Environment files
 .env
+backend/.env
 .env.*
 !.env.example
 
@@ -43,3 +44,4 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 alembic.ini
+!backend/alembic.ini
