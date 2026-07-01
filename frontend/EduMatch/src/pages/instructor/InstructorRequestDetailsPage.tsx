@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   CalendarClock,
   MessageSquareText,
   Send,
   User,
   Wallet,
 } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 import { Input } from "@/components/ui/input";
 import { RequestStatusBadge } from "@/components/ui/RequestStatusBadge";
 import { ROUTES } from "@/lib/routes";
@@ -99,13 +99,7 @@ export function InstructorRequestDetailsPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <Link
-          className="mb-md inline-flex items-center gap-xs text-body-sm text-on-surface-variant transition hover:text-on-surface"
-          to={ROUTES.INSTRUCTOR.REQUESTS}
-        >
-          <ArrowLeft className="size-4" />
-          Back to Requests
-        </Link>
+        <BackButton className="mb-md" fallback={ROUTES.INSTRUCTOR.REQUESTS} />
         {loading ? (
           <p className="text-body-sm text-on-surface-variant">Loading request...</p>
         ) : request ? (

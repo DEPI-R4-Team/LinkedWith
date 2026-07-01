@@ -11,6 +11,7 @@ import {
   Plus,
   Search,
 } from "lucide-react";
+import { DashboardTopbarActions } from "@/components/layout/DashboardTopbarActions";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -157,9 +158,9 @@ export function StudentDashboardPage() {
 
   return (
     <>
-      <header className="sticky top-0 z-10 border-b border-outline-variant bg-background/90 px-margin-mobile py-md backdrop-blur md:px-margin-desktop">
-        <div className="flex flex-col gap-md lg:flex-row lg:items-center lg:justify-between">
-          <div>
+      <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
+        <div className="flex flex-col gap-lg lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0">
             <div className="mb-xs flex items-center gap-sm text-body-sm text-on-surface-variant">
               <Home className="size-4" />
               <span>Student</span>
@@ -170,21 +171,23 @@ export function StudentDashboardPage() {
             <p className="text-body-sm text-on-surface-variant">
               Track your learning requests, upcoming sessions, applications, and protected payments.
             </p>
+
+            <div className="mt-md flex flex-wrap items-center gap-sm">
+              <Link
+                className="flex h-10 min-w-0 items-center gap-sm rounded-md border border-outline-variant bg-surface-container px-md text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface md:w-72"
+                to="/student/requests"
+              >
+                <Search className="size-4 shrink-0" />
+                <span className="truncate text-body-sm">Search your requests...</span>
+              </Link>
+              <Button className="h-10 bg-primary px-md text-on-primary hover:bg-primary/90" render={<Link to="/student/requests/create" />}>
+                <Plus className="size-4" />
+                New Request
+              </Button>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-sm">
-            <Link
-              className="flex h-10 min-w-0 items-center gap-sm rounded-md border border-outline-variant bg-surface-container px-md text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface md:w-72"
-              to="/student/requests"
-            >
-              <Search className="size-4 shrink-0" />
-              <span className="truncate text-body-sm">Search your requests...</span>
-            </Link>
-            <Button className="h-10 bg-primary px-md text-on-primary hover:bg-primary/90" render={<Link to="/student/requests/create" />}>
-              <Plus className="size-4" />
-              New Request
-            </Button>
-          </div>
+          <DashboardTopbarActions />
         </div>
       </header>
 

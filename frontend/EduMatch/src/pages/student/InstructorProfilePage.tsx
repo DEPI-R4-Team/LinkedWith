@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, BadgeCheck, BriefcaseBusiness, CircleDollarSign, Star, Zap } from "lucide-react";
+import { BadgeCheck, BriefcaseBusiness, CircleDollarSign, Star, Zap } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -100,10 +101,7 @@ export function InstructorProfilePage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <Link className="inline-flex items-center gap-xs text-body-sm text-secondary transition hover:text-secondary-fixed" to="/student/instructors">
-          <ArrowLeft className="size-4" />
-          Back to Instructors
-        </Link>
+        <BackButton fallback="/student/instructors" />
         <p className="mt-md text-label-md uppercase text-secondary">Instructor Profile</p>
         <h1 className="mt-xs text-headline-lg text-on-surface">
           {instructor?.full_name ?? "Instructor profile"}

@@ -66,6 +66,15 @@
     --spacing-margin-mobile: 16px;
     --spacing-margin-desktop: 40px;
 
+    /* Tailwind container widths.
+       Keep these explicit because the project also defines sm/md/lg spacing tokens,
+       and max-w-sm/max-w-md otherwise collapse to spacing-sized widths. */
+    --container-xs: 20rem;
+    --container-sm: 24rem;
+    --container-md: 28rem;
+    --container-lg: 32rem;
+    --container-xl: 36rem;
+
     /* GradConnect animations */
     --animate-fade-in:  fadeIn  0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
     --animate-fade-out: fadeOut 0.25s ease-in   forwards;
@@ -341,6 +350,28 @@
     html {
         @apply font-sans;
         scroll-behavior: smooth;
+    }
+}
+
+@layer utilities {
+    .max-w-xs {
+        max-width: 20rem;
+    }
+
+    .max-w-sm {
+        max-width: 24rem;
+    }
+
+    .max-w-md {
+        max-width: 28rem;
+    }
+
+    .max-w-lg {
+        max-width: 32rem;
+    }
+
+    .max-w-xl {
+        max-width: 36rem;
     }
 }
 

@@ -102,5 +102,17 @@ class InstructorDetailResponse(InstructorListItemResponse):
 
 class UserUpdate(BaseModel):
     full_name: str | None = Field(default=None, min_length=2, max_length=120)
+    email: EmailStr | None = None
     phone: str | None = Field(default=None, max_length=32)
     bio: str | None = Field(default=None, max_length=2000)
+    profile_image: str | None = Field(default=None, max_length=500)
+    education_level: str | None = Field(default=None, max_length=120)
+    university: str | None = Field(default=None, max_length=160)
+    department: str | None = Field(default=None, max_length=160)
+    preferred_language: str | None = Field(default=None, max_length=80)
+    location: str | None = Field(default=None, max_length=160)
+    specialization: str | None = Field(default=None, max_length=160)
+    skills: str | None = Field(default=None, max_length=2000)
+    experience: str | None = Field(default=None, max_length=2000)
+    price_per_session: Decimal | None = Field(default=None, gt=0)
+    is_available_for_instant: bool | None = None

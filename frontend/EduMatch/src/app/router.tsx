@@ -20,6 +20,9 @@ const StudentDashboardPage = lazy(() => import("@/pages/student/StudentDashboard
 const StudentRequestsPage = lazy(() => import("@/pages/student/StudentRequestsPage").then((m) => ({ default: m.StudentRequestsPage })));
 const RequestDetailsPage = lazy(() => import("@/pages/student/RequestDetailsPage").then((m) => ({ default: m.RequestDetailsPage })));
 const CreateRequestPage = lazy(() => import("@/pages/student/CreateRequestPage").then((m) => ({ default: m.CreateRequestPage })));
+const StudentInstantRequestsPage = lazy(() => import("@/pages/student/InstantRequestsPage").then((m) => ({ default: m.InstantRequestsPage })));
+const CreateInstantRequestPage = lazy(() => import("@/pages/student/CreateInstantRequestPage").then((m) => ({ default: m.CreateInstantRequestPage })));
+const StudentInstantRequestDetailsPage = lazy(() => import("@/pages/student/InstantRequestDetailsPage").then((m) => ({ default: m.InstantRequestDetailsPage })));
 const GroupRequestsPage = lazy(() => import("@/pages/student/GroupRequestsPage").then((m) => ({ default: m.GroupRequestsPage })));
 const CreateGroupRequestPage = lazy(() => import("@/pages/student/CreateGroupRequestPage").then((m) => ({ default: m.CreateGroupRequestPage })));
 const GroupRequestDetailsPage = lazy(() => import("@/pages/student/GroupRequestDetailsPage").then((m) => ({ default: m.GroupRequestDetailsPage })));
@@ -35,10 +38,10 @@ const ProfilePage = lazy(() => import("@/pages/student/ProfilePage").then((m) =>
 const StudentSettingsPage = lazy(() => import("@/pages/student/StudentSettingsPage").then((m) => ({ default: m.StudentSettingsPage })));
 
 const InstructorDashboardPage = lazy(() => import("@/pages/instructor/InstructorDashboardPage").then((m) => ({ default: m.InstructorDashboardPage })));
-const InstructorProjectsPage = lazy(() => import("@/pages/instructor/InstructorProjectsPage").then((m) => ({ default: m.InstructorProjectsPage })));
-const InstructorProjectDetailsPage = lazy(() => import("@/pages/instructor/InstructorProjectDetailsPage").then((m) => ({ default: m.InstructorProjectDetailsPage })));
 const InstructorRequestsPage = lazy(() => import("@/pages/instructor/InstructorRequestsPage").then((m) => ({ default: m.InstructorRequestsPage })));
 const InstructorRequestDetailsPage = lazy(() => import("@/pages/instructor/InstructorRequestDetailsPage").then((m) => ({ default: m.InstructorRequestDetailsPage })));
+const InstructorInstantRequestsPage = lazy(() => import("@/pages/instructor/InstantRequestsPage").then((m) => ({ default: m.InstructorInstantRequestsPage })));
+const InstructorInstantRequestDetailsPage = lazy(() => import("@/pages/instructor/InstantRequestDetailsPage").then((m) => ({ default: m.InstructorInstantRequestDetailsPage })));
 const InstructorSessionsPage = lazy(() => import("@/pages/instructor/InstructorSessionsPage").then((m) => ({ default: m.InstructorSessionsPage })));
 const InstructorSessionDetailsPage = lazy(() => import("@/pages/instructor/InstructorSessionDetailsPage").then((m) => ({ default: m.InstructorSessionDetailsPage })));
 const InstructorChatPage = lazy(() => import("@/pages/instructor/InstructorChatPage").then((m) => ({ default: m.InstructorChatPage })));
@@ -82,6 +85,9 @@ export const router = createBrowserRouter([
           { path: ROUTES.STUDENT.REQUESTS, element: <StudentRequestsPage /> },
           { path: ROUTES.STUDENT.REQUEST_DETAILS, element: <RequestDetailsPage /> },
           { path: ROUTES.STUDENT.REQUEST_CREATE, element: <CreateRequestPage /> },
+          { path: ROUTES.STUDENT.INSTANT_REQUESTS, element: <StudentInstantRequestsPage /> },
+          { path: ROUTES.STUDENT.INSTANT_REQUEST_CREATE, element: <CreateInstantRequestPage /> },
+          { path: ROUTES.STUDENT.INSTANT_REQUEST_DETAILS, element: <StudentInstantRequestDetailsPage /> },
           { path: ROUTES.STUDENT.GROUP_REQUESTS, element: <GroupRequestsPage /> },
           { path: ROUTES.STUDENT.GROUP_REQUEST_CREATE, element: <CreateGroupRequestPage /> },
           { path: ROUTES.STUDENT.GROUP_REQUEST_DETAILS, element: <GroupRequestDetailsPage /> },
@@ -107,10 +113,10 @@ export const router = createBrowserRouter([
         element: <InstructorDashboardLayout />,
         children: [
           { path: ROUTES.INSTRUCTOR.DASHBOARD, element: <InstructorDashboardPage /> },
-          { path: ROUTES.INSTRUCTOR.PROJECTS, element: <InstructorProjectsPage /> },
-          { path: ROUTES.INSTRUCTOR.PROJECT_DETAILS, element: <InstructorProjectDetailsPage /> },
           { path: ROUTES.INSTRUCTOR.REQUESTS, element: <InstructorRequestsPage /> },
           { path: ROUTES.INSTRUCTOR.REQUEST_DETAILS, element: <InstructorRequestDetailsPage /> },
+          { path: ROUTES.INSTRUCTOR.INSTANT_REQUESTS, element: <InstructorInstantRequestsPage /> },
+          { path: ROUTES.INSTRUCTOR.INSTANT_REQUEST_DETAILS, element: <InstructorInstantRequestDetailsPage /> },
           { path: ROUTES.INSTRUCTOR.SESSIONS, element: <InstructorSessionsPage /> },
           { path: ROUTES.INSTRUCTOR.SESSION_DETAILS, element: <InstructorSessionDetailsPage /> },
           { path: ROUTES.INSTRUCTOR.CHAT, element: <InstructorChatPage /> },

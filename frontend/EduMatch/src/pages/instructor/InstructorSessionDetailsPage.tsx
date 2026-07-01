@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   CalendarClock,
   CheckCircle2,
   Clock3,
@@ -10,6 +9,7 @@ import {
   Users,
   Video,
 } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 import { SessionStatusBadge } from "@/components/ui/SessionStatusBadge";
 import { ROUTES } from "@/lib/routes";
 import { getSessionById, instructorCompleteSession, startSession } from "@/services/sessions.service";
@@ -118,13 +118,7 @@ export function InstructorSessionDetailsPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <Link
-          className="mb-md inline-flex items-center gap-xs text-body-sm text-on-surface-variant transition hover:text-on-surface"
-          to={ROUTES.INSTRUCTOR.SESSIONS}
-        >
-          <ArrowLeft className="size-4" />
-          Back to Sessions
-        </Link>
+        <BackButton className="mb-md" fallback={ROUTES.INSTRUCTOR.SESSIONS} />
         <div className="flex flex-col gap-md lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-headline-lg text-on-surface">{session.request_title ?? "Learning Session"}</h1>

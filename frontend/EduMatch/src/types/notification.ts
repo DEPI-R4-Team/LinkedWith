@@ -2,6 +2,7 @@ export type NotificationType =
   | "application_received"
   | "application_accepted"
   | "application_rejected"
+  | "application_message_received"
   | "payment_received"
   | "payment_released"
   | "payment_refunded"

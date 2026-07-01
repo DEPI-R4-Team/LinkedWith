@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CalendarClock, Clock3, Save, Zap } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 
 const availabilitySlots = [
   { day: "Today", time: "6:00 PM - 9:00 PM", active: true },
@@ -13,6 +14,7 @@ export function InstructorAvailabilityPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
+        <BackButton className="mb-md" fallback="/instructor/dashboard" />
         <h1 className="text-headline-lg text-on-surface">Availability</h1>
         <p className="mt-xs max-w-2xl text-body-sm text-on-surface-variant">
           Manage when students can request sessions with you.

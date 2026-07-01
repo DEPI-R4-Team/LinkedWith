@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   BadgeDollarSign,
-  Bell,
   BookOpen,
   FileText,
   Plus,
@@ -163,7 +162,6 @@ function CreateRequestCard() {
 }
 
 export function StudentRequestsPage() {
-  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
   const [requests, setRequests] = useState<StudentRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -214,14 +212,6 @@ export function StudentRequestsPage() {
                   <Plus className="size-4" />
                   New Request
                 </Link>
-                <button
-                  aria-label="Notifications"
-                  className="flex size-10 items-center justify-center rounded-md border border-outline-variant bg-surface-container text-on-surface transition hover:bg-surface-container-high"
-                  onClick={() => navigate("/notifications")}
-                  type="button"
-                >
-                  <Bell className="size-4" />
-                </button>
               </div>
             </div>
           </header>

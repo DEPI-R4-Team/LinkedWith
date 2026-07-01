@@ -49,7 +49,7 @@ export function useLogin() {
 function parseApiError(err: unknown): string {
   if (axios.isAxiosError(err)) {
     if (!err.response) {
-      return "Cannot connect to server. Make sure the backend is running on http://localhost:8000.";
+      return "Cannot connect to server. Check VITE_API_BASE_URL and make sure the backend is running.";
     }
 
     const detail = (err.response.data as { detail?: unknown })?.detail;

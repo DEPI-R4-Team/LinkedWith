@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { ArrowLeft, Check, MessageSquareText, WalletCards, X } from "lucide-react";
+import { Check, MessageSquareText, WalletCards, X } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -95,10 +96,7 @@ export function GroupRequestDetailsPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <Link className="mb-md inline-flex items-center gap-xs text-body-sm text-on-surface-variant transition hover:text-on-surface" to="/student/group-requests">
-          <ArrowLeft className="size-4" />
-          Back to Group Requests
-        </Link>
+        <BackButton className="mb-md" fallback="/student/group-requests" />
         <div className="flex flex-col gap-md lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-headline-lg text-on-surface">{group.title}</h1>

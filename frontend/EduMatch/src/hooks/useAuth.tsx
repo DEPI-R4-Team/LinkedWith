@@ -1,8 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY } from "@/services/api";
-import { getCurrentUser, loginUser, logoutUser, registerUser } from "@/services/auth.service";
-import type { AuthResponse, LoginPayload, RegisterPayload, User, UserRole } from "@/types/user";
+import { getCurrentUser, loginUser, logoutUser, registerUser, updateMyProfile } from "@/services/auth.service";
+import type { AuthResponse, LoginPayload, RegisterPayload, User, UserProfileUpdatePayload, UserRole } from "@/types/user";
 import { ROUTES } from "@/lib/routes";
 
 type AuthContextValue = {
@@ -14,6 +14,7 @@ type AuthContextValue = {
   register: (payload: RegisterPayload) => Promise<User>;
   logout: () => void;
   refreshUser: () => Promise<User | null>;
+  updateProfile: (payload: UserProfileUpdatePayload) => Promise<User>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -114,6 +115,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return registerUser(payload);
   }, []);
 
+  const updateProfile = useCallback(async (payload: UserProfileUpdatePayload) => {
+    const updatedUser = await updateMyProfile(payload);
+    setUser(updatedUser);
+    return updatedUser;
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -124,8 +131,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       register,
       logout: clearAuth,
       refreshUser,
+      updateProfile,
     }),
-    [clearAuth, isLoading, login, refreshUser, register, token, user],
+    [clearAuth, isLoading, login, refreshUser, register, token, updateProfile, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

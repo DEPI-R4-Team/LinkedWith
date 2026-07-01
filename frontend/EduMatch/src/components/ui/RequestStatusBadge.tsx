@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 
 export type RequestStatus =
   | "open"
+  | "instant_open"
+  | "instant_accepted"
   | "pending_instant"
   | "accepted"
   | "waiting_payment"
@@ -20,6 +22,8 @@ type StatusBadgeProps = {
 
 const statusLabels: Record<RequestStatus | ApplicationStatus, string> = {
   open: "Open",
+  instant_open: "Instant Open",
+  instant_accepted: "Instant Accepted",
   pending_instant: "Pending Instant",
   accepted: "Accepted",
   waiting_payment: "Waiting Payment",
@@ -34,6 +38,8 @@ const statusLabels: Record<RequestStatus | ApplicationStatus, string> = {
 
 const statusClasses: Record<RequestStatus | ApplicationStatus, string> = {
   open: "bg-secondary/15 text-secondary ring-secondary/25",
+  instant_open: "bg-secondary/15 text-secondary ring-secondary/25",
+  instant_accepted: "bg-primary/15 text-primary ring-primary/25",
   pending_instant: "bg-tertiary/15 text-tertiary ring-tertiary/25",
   accepted: "bg-primary/15 text-primary ring-primary/25",
   waiting_payment: "bg-tertiary/15 text-tertiary ring-tertiary/25",

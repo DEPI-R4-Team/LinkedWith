@@ -2,6 +2,7 @@ import { type FormEvent, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { createGroupRequest } from "@/services/groupRequests.service";
+import { BackButton } from "@/components/ui/BackButton";
 import { Input } from "@/components/ui/input";
 
 type FormState = {
@@ -87,6 +88,7 @@ export function CreateGroupRequestPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
+        <BackButton className="mb-md" fallback="/student/requests/create" />
         <h1 className="text-headline-lg text-on-surface">Create Group Request</h1>
         <p className="mt-xs max-w-2xl text-body-sm text-on-surface-variant">Set the total budget and minimum price per student. The price updates as students join.</p>
       </header>

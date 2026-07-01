@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, ClipboardList, GraduationCap, LayoutDashboard, LogOut, MessageSquareQuote, ReceiptText, Users, Video } from "lucide-react";
+import { ClipboardList, GraduationCap, LayoutDashboard, LogOut, MessageSquareQuote, ReceiptText, Users, Video } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { ROUTES } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,6 @@ const items = [
   { label: "Sessions", icon: Video, to: ROUTES.ADMIN.SESSIONS },
   { label: "Payments", icon: ReceiptText, to: ROUTES.ADMIN.PAYMENTS },
   { label: "Reviews", icon: MessageSquareQuote, to: ROUTES.ADMIN.REVIEWS },
-  { label: "Notifications", icon: Bell, to: ROUTES.NOTIFICATIONS },
 ];
 
 export function AdminSidebar() {

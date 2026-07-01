@@ -80,6 +80,12 @@ export function InstructorApplicationCard({
           >
             View Profile
           </Link>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md border border-outline-variant px-md text-body-sm font-medium text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface"
+            to={`/student/chat?applicationId=${application.id}`}
+          >
+            Message Applicant
+          </Link>
           <button
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-md text-body-sm font-medium text-on-primary transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isAccepted || isRejected}

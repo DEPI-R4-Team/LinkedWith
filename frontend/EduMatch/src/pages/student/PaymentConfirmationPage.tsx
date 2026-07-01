@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { EscrowProtectionCard } from "@/components/cards/EscrowProtectionCard";
 import { OrderSummaryCard } from "@/components/cards/OrderSummaryCard";
 import { PaymentSuccessCard } from "@/components/cards/PaymentSuccessCard";
@@ -9,6 +8,7 @@ import {
   PaymentMethodSelector,
   type PaymentMethod,
 } from "@/components/forms/PaymentMethodSelector";
+import { BackButton } from "@/components/ui/BackButton";
 import type { PaymentStatus } from "@/components/ui/PaymentStatusBadge";
 import { getPaymentBySession, payForSession } from "@/services/payments.service";
 import { getSessionById } from "@/services/sessions.service";
@@ -140,13 +140,7 @@ export function PaymentConfirmationPage() {
   return (
     <div className="min-h-screen bg-[#0f172a] px-margin-mobile py-lg md:px-margin-desktop">
       <div className="mx-auto max-w-6xl space-y-lg">
-        <Link
-          className="inline-flex items-center gap-xs text-body-sm font-medium text-secondary transition hover:text-secondary/80"
-          to={`/student/sessions/${sessionId ?? ""}`}
-        >
-          <ArrowLeft className="size-4" />
-          Back to Session Details
-        </Link>
+        <BackButton fallback={`/student/sessions/${sessionId ?? ""}`} />
 
         <header>
           <p className="text-label-md uppercase text-secondary">Session #{sessionId}</p>

@@ -30,7 +30,7 @@ export function RegisterPage() {
             Create an Account
           </h2>
           <p className="text-body-sm font-body-sm text-on-surface-variant">
-            Join the academic portal to manage your projects.
+            Join the academic portal to manage your learning requests.
           </p>
         </header>
 

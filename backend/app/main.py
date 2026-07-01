@@ -7,6 +7,7 @@ from app.routers import (
     applications,
     auth,
     group_requests,
+    instant_requests,
     messages,
     notifications,
     payments,
@@ -32,6 +33,7 @@ app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(requests.router)
 app.include_router(group_requests.router)
+app.include_router(instant_requests.router)
 app.include_router(applications.router)
 app.include_router(sessions.router)
 app.include_router(messages.router)

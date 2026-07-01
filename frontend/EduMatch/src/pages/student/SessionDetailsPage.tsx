@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Star, X } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { Star, X } from "lucide-react";
 import { GroupParticipantsCard } from "@/components/cards/GroupParticipantsCard";
 import { MeetingAccessCard } from "@/components/cards/MeetingAccessCard";
 import { RelatedRequestCard } from "@/components/cards/RelatedRequestCard";
@@ -10,6 +10,7 @@ import { SessionInstructorCard } from "@/components/cards/SessionInstructorCard"
 import { SessionOverviewCard } from "@/components/cards/SessionOverviewCard";
 import { SessionPaymentSummaryCard } from "@/components/cards/SessionPaymentSummaryCard";
 import { SessionStatusTimelineCard } from "@/components/cards/SessionStatusTimelineCard";
+import { BackButton } from "@/components/ui/BackButton";
 import type { PaymentStatus } from "@/components/ui/PaymentStatusBadge";
 import { createReview } from "@/services/reviews.service";
 import { cancelSession, confirmSessionCompletion, getSessionById, startSession } from "@/services/sessions.service";
@@ -169,10 +170,7 @@ export function SessionDetailsPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <Link className="inline-flex items-center gap-xs text-body-sm text-secondary transition hover:text-secondary-fixed" to="/student/sessions">
-          <ArrowLeft className="size-4" />
-          Back to Sessions
-        </Link>
+        <BackButton fallback="/student/sessions" />
         <div className="mt-md">
           <p className="text-label-md uppercase text-secondary">Session #{session.id}</p>
           <h1 className="mt-xs text-headline-lg text-on-surface">Session Details</h1>

@@ -11,7 +11,7 @@ import {
   UserPen,
   Wallet,
 } from "lucide-react";
-import { NotificationsDropdown } from "@/components/layout/NotificationsDropdown";
+import { DashboardTopbarActions } from "@/components/layout/DashboardTopbarActions";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -47,15 +47,6 @@ function formatDate(value: string | null | undefined) {
     return "Not scheduled yet";
   }
   return new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
-}
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
 }
 
 function SectionHeader({ title, description }: { title: string; description: string }) {
@@ -150,7 +141,7 @@ export function InstructorDashboardPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <div className="flex flex-col gap-lg xl:flex-row xl:items-start xl:justify-between">
+        <div className="flex flex-col gap-lg lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-label-md uppercase text-primary">Instructor Dashboard</p>
             <h1 className="mt-xs text-headline-lg text-on-surface">Welcome back, {user?.full_name ?? "Instructor"}</h1>
@@ -178,12 +169,7 @@ export function InstructorDashboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-sm">
-            <NotificationsDropdown />
-            <Link to={ROUTES.INSTRUCTOR.PROFILE} className="flex size-10 items-center justify-center rounded-full bg-surface-container-high text-on-surface-variant transition hover:bg-surface-container-highest" aria-label="View profile">
-              <span className="text-body-sm font-medium">{initials(user?.full_name ?? "Instructor")}</span>
-            </Link>
-          </div>
+          <DashboardTopbarActions />
         </div>
       </header>
 

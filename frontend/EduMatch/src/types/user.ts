@@ -72,3 +72,21 @@ export interface AuthResponse {
   token_type: "bearer";
   user: User;
 }
+
+export interface UserProfileUpdatePayload {
+  full_name?: string;
+  email?: string;
+  phone?: string | null;
+  bio?: string | null;
+  profile_image?: string | null;
+  education_level?: string | null;
+  university?: string | null;
+  department?: string | null;
+  preferred_language?: string | null;
+  location?: string | null;
+  specialization?: string | null;
+  skills?: string | null;
+  experience?: string | null;
+  price_per_session?: number | null;
+  is_available_for_instant?: boolean;
+}

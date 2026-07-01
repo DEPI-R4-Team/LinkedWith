@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import { BadgeDollarSign, ClipboardList, MessageSquareQuote, ShieldCheck, Users, Video, WalletCards } from "lucide-react";
+import { DashboardTopbarActions } from "@/components/layout/DashboardTopbarActions";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { LoadingState } from "@/components/ui/LoadingState";
@@ -36,8 +38,14 @@ export function AdminDashboardPage() {
         setRequests(requestData);
         setPayments(paymentData);
         setError("");
-      } catch {
-        setError("Could not load admin dashboard. Admin access is required.");
+      } catch (err) {
+        if (err instanceof AxiosError && err.response?.status === 403) {
+          setError("Admin access is required. Please log in with an admin account.");
+        } else if (err instanceof AxiosError && err.response?.status === 401) {
+          setError("Your session expired. Please log in again.");
+        } else {
+          setError("Could not load admin dashboard.");
+        }
       } finally {
         setLoading(false);
       }
@@ -61,8 +69,15 @@ export function AdminDashboardPage() {
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
-        <h1 className="text-headline-lg text-on-surface">Admin Dashboard</h1>
-        <p className="mt-xs max-w-2xl text-body-sm text-on-surface-variant">Read-only overview of real platform activity.</p>
+        <div className="flex flex-col gap-lg lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-label-md uppercase text-primary">Admin Dashboard</p>
+            <h1 className="mt-xs text-headline-lg text-on-surface">Platform overview</h1>
+            <p className="mt-xs max-w-2xl text-body-sm text-on-surface-variant">Read-only overview of real platform activity.</p>
+          </div>
+
+          <DashboardTopbarActions />
+        </div>
       </header>
       <div className="space-y-lg px-margin-mobile py-lg md:px-margin-desktop">
         {error ? <ErrorState message={error} /> : null}

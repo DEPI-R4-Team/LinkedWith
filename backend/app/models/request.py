@@ -33,6 +33,8 @@ class LearningRequest(Base):
     group_status: Mapped[str | None] = mapped_column(String(32))
     status: Mapped[str] = mapped_column(String(32), nullable=False, default="open", server_default="open")
     accepted_instructor_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    accepted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    urgency_level: Mapped[str | None] = mapped_column(String(32))
     expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(

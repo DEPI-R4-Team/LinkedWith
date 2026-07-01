@@ -27,3 +27,4 @@ class Application(Base):
 
     request = relationship("LearningRequest", back_populates="applications")
     instructor = relationship("User", back_populates="applications")
+    messages = relationship("Message", back_populates="application", cascade="all, delete-orphan")

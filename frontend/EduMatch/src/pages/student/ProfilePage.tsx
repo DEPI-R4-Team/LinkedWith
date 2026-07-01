@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
+import axios from "axios";
 import { LockKeyhole, Pencil, ShieldCheck } from "lucide-react";
-import { PersonalInfoCard } from "@/components/cards/PersonalInfoCard";
 import { ProfileHeaderCard } from "@/components/cards/ProfileHeaderCard";
 import { QuickActionsCard } from "@/components/cards/QuickActionsCard";
+import { BackButton } from "@/components/ui/BackButton";
+import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
+import type { User } from "@/types/user";
 
 function BioCard({ bio, onEdit }: { bio: string | null | undefined; onEdit: () => void }) {
   return (
@@ -63,14 +66,219 @@ function SecurityCard({ onMessage }: { onMessage: (message: string) => void }) {
   );
 }
 
+type StudentProfileForm = {
+  full_name: string;
+  email: string;
+  phone: string;
+  education_level: string;
+  university: string;
+  department: string;
+  preferred_language: string;
+  location: string;
+  bio: string;
+  profile_image: string;
+};
+
+function valueOrMissing(value: string | null | undefined) {
+  return value?.trim() ? value : "Not added yet";
+}
+
+function formFromUser(user: User | null): StudentProfileForm {
+  const profile = user?.student_profile;
+  return {
+    full_name: user?.full_name ?? "",
+    email: user?.email ?? "",
+    phone: profile?.phone ?? "",
+    education_level: profile?.education_level ?? "",
+    university: profile?.university ?? "",
+    department: profile?.department ?? "",
+    preferred_language: profile?.preferred_language ?? "",
+    location: profile?.location ?? "",
+    bio: profile?.bio ?? "",
+    profile_image: profile?.profile_image ?? "",
+  };
+}
+
+function parseApiError(error: unknown) {
+  if (axios.isAxiosError(error)) {
+    const detail = (error.response?.data as { detail?: unknown } | undefined)?.detail;
+    if (typeof detail === "string") return detail;
+  }
+  return "Could not update profile. Please try again.";
+}
+
+function InfoGrid({ user }: { user: User | null }) {
+  const profile = user?.student_profile;
+  const personalInfo = [
+    { label: "Full Name", value: valueOrMissing(user?.full_name) },
+    { label: "Email", value: valueOrMissing(user?.email) },
+    { label: "Phone", value: valueOrMissing(profile?.phone) },
+    { label: "Education Level", value: valueOrMissing(profile?.education_level) },
+    { label: "University", value: valueOrMissing(profile?.university) },
+    { label: "Department", value: valueOrMissing(profile?.department) },
+    { label: "Preferred Language", value: valueOrMissing(profile?.preferred_language) },
+    { label: "Location", value: valueOrMissing(profile?.location) },
+    { label: "Profile Image URL", value: valueOrMissing(profile?.profile_image) },
+  ];
+
+  return (
+    <section className="rounded-lg border border-outline-variant bg-surface-container p-lg">
+      <h2 className="text-headline-md text-on-surface">Personal Information</h2>
+      <dl className="mt-lg grid gap-md md:grid-cols-2">
+        {personalInfo.map((item) => (
+          <div className="rounded-md border border-outline-variant bg-surface-container-low p-md" key={item.label}>
+            <dt className="text-body-sm text-on-surface-variant">{item.label}</dt>
+            <dd className="mt-xs break-words text-body-sm font-medium text-on-surface">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+function StudentProfileEditForm({
+  form,
+  isSaving,
+  onCancel,
+  onChange,
+  onSubmit,
+}: {
+  form: StudentProfileForm;
+  isSaving: boolean;
+  onCancel: () => void;
+  onChange: (field: keyof StudentProfileForm, value: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}) {
+  return (
+    <form className="rounded-lg border border-outline-variant bg-surface-container p-lg" onSubmit={onSubmit}>
+      <h2 className="text-headline-md text-on-surface">Edit Profile</h2>
+      <div className="mt-lg grid gap-md md:grid-cols-2">
+        <Field label="Full Name" value={form.full_name} onChange={(value) => onChange("full_name", value)} required />
+        <Field label="Email" type="email" value={form.email} onChange={(value) => onChange("email", value)} required />
+        <Field label="Phone" value={form.phone} onChange={(value) => onChange("phone", value)} />
+        <Field label="Education Level" value={form.education_level} onChange={(value) => onChange("education_level", value)} />
+        <Field label="University" value={form.university} onChange={(value) => onChange("university", value)} />
+        <Field label="Department" value={form.department} onChange={(value) => onChange("department", value)} />
+        <Field label="Preferred Language" value={form.preferred_language} onChange={(value) => onChange("preferred_language", value)} />
+        <Field label="Location" value={form.location} onChange={(value) => onChange("location", value)} />
+        <Field label="Profile Image URL" value={form.profile_image} onChange={(value) => onChange("profile_image", value)} />
+      </div>
+      <label className="mt-md block space-y-sm">
+        <span className="text-body-sm font-medium text-on-surface">Bio</span>
+        <textarea
+          className="min-h-32 w-full resize-y rounded-md border border-outline-variant bg-surface-container-low px-md py-sm text-body-sm text-on-surface outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+          onChange={(event) => onChange("bio", event.target.value)}
+          value={form.bio}
+        />
+      </label>
+      <div className="mt-lg flex flex-wrap justify-end gap-sm">
+        <button className="inline-flex h-10 items-center justify-center rounded-md border border-outline-variant px-md text-body-sm text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface" onClick={onCancel} type="button">
+          Cancel
+        </button>
+        <button className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-md text-body-sm font-medium text-on-primary transition hover:bg-primary/90 disabled:opacity-60" disabled={isSaving} type="submit">
+          {isSaving ? "Saving..." : "Save Profile"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label,
+  onChange,
+  required = false,
+  type = "text",
+  value,
+}: {
+  label: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  type?: string;
+  value: string;
+}) {
+  return (
+    <label className="space-y-sm">
+      <span className="text-body-sm font-medium text-on-surface">{label}</span>
+      <Input
+        className="h-11 border-outline-variant bg-surface-container-low text-on-surface"
+        onChange={(event) => onChange(event.target.value)}
+        required={required}
+        type={type}
+        value={value}
+      />
+    </label>
+  );
+}
+
 export function ProfilePage() {
-  const { user } = useAuth();
+  const { updateProfile, user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [form, setForm] = useState<StudentProfileForm>(() => formFromUser(user));
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!isEditing) {
+      setForm(formFromUser(user));
+    }
+  }, [isEditing, user]);
+
+  function startEditing() {
+    setForm(formFromUser(user));
+    setMessage("");
+    setError("");
+    setIsEditing(true);
+  }
+
+  function cancelEditing() {
+    setForm(formFromUser(user));
+    setIsEditing(false);
+    setMessage("Unsaved profile changes were reset.");
+    setError("");
+  }
+
+  function updateField(field: keyof StudentProfileForm, value: string) {
+    setForm((current) => ({ ...current, [field]: value }));
+    setMessage("");
+    setError("");
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!form.full_name.trim() || !form.email.trim()) {
+      setError("Full name and email are required.");
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await updateProfile({
+        full_name: form.full_name.trim(),
+        email: form.email.trim(),
+        phone: form.phone,
+        education_level: form.education_level,
+        university: form.university,
+        department: form.department,
+        preferred_language: form.preferred_language,
+        location: form.location,
+        bio: form.bio,
+        profile_image: form.profile_image,
+      });
+      setIsEditing(false);
+      setMessage("Profile updated successfully.");
+      setError("");
+    } catch (apiError) {
+      setError(parseApiError(apiError));
+    } finally {
+      setIsSaving(false);
+    }
+  }
 
   return (
     <>
       <header className="border-b border-outline-variant bg-background/90 px-margin-mobile py-lg backdrop-blur md:px-margin-desktop">
         <div>
+          <BackButton className="mb-md" fallback="/student/dashboard" />
           <h1 className="text-headline-lg text-on-surface">My Profile</h1>
           <p className="mt-xs max-w-2xl text-body-sm text-on-surface-variant">
             Manage your personal information and learning preferences.
@@ -84,22 +292,32 @@ export function ProfilePage() {
             {message}
           </p>
         ) : null}
+        {error ? (
+          <p className="rounded-md border border-error/25 bg-error/10 px-md py-sm text-body-sm text-error">
+            {error}
+          </p>
+        ) : null}
 
         <ProfileHeaderCard
           user={user}
-          onChangePhoto={() => setMessage("Profile photo upload is not implemented yet.")}
-          onEditProfile={() => setMessage("Edit profile mode enabled.")}
+          onChangePhoto={() => setMessage("File upload is not available yet. You can edit the profile image URL in Edit Profile.")}
+          onEditProfile={startEditing}
         />
 
         <div className="grid gap-lg 2xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
           <main className="min-w-0 space-y-lg">
-            <PersonalInfoCard
-              user={user}
-              onCancel={() => setMessage("Unsaved profile changes were reset.")}
-              onEdit={() => setMessage("Edit profile mode enabled.")}
-              onSave={() => setMessage("Profile updated successfully.")}
-            />
-            <BioCard bio={user?.student_profile?.bio} onEdit={() => setMessage("Edit profile mode enabled.")} />
+            {isEditing ? (
+              <StudentProfileEditForm
+                form={form}
+                isSaving={isSaving}
+                onCancel={cancelEditing}
+                onChange={updateField}
+                onSubmit={(event) => void handleSubmit(event)}
+              />
+            ) : (
+              <InfoGrid user={user} />
+            )}
+            <BioCard bio={user?.student_profile?.bio} onEdit={startEditing} />
           </main>
 
           <aside className="space-y-lg">

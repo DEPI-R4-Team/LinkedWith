@@ -1,5 +1,7 @@
 export type RequestStatus =
   | "open"
+  | "instant_open"
+  | "instant_accepted"
   | "pending_instant"
   | "accepted"
   | "waiting_payment"
@@ -33,6 +35,8 @@ export interface LearningRequest {
   group_status: string | null;
   status: RequestStatus;
   accepted_instructor_id: number | null;
+  accepted_at: string | null;
+  urgency_level: string | null;
   expires_at: string | null;
   created_at: string;
   updated_at: string;

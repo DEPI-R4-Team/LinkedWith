@@ -302,6 +302,7 @@ def list_admin_requests(
 ) -> list[AdminRequestListItem]:
     statement = select(LearningRequest).options(
         selectinload(LearningRequest.student),
+        selectinload(LearningRequest.accepted_instructor),
         selectinload(LearningRequest.applications),
         selectinload(LearningRequest.sessions),
     )
@@ -332,6 +333,9 @@ def list_admin_requests(
             created_at=request.created_at,
             applications_count=len(request.applications),
             session_id=request.sessions[0].id if request.sessions else None,
+            expires_at=request.expires_at,
+            accepted_instructor_id=request.accepted_instructor_id,
+            accepted_instructor_name=request.accepted_instructor.full_name if request.accepted_instructor else None,
         )
         for request in requests
     ]
@@ -365,6 +369,7 @@ def list_admin_sessions(
             request_id=session.request_id,
             request_title=session.request.title if session.request else None,
             request_type=session.request.request_type if session.request else None,
+            request_expires_at=session.request.expires_at if session.request else None,
             student_id=session.student_id,
             student_name=session.student.full_name if session.student else None,
             instructor_id=session.instructor_id,

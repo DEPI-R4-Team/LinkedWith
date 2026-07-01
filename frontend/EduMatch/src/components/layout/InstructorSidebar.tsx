@@ -1,9 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   CalendarClock,
-  Bell,
   FileText,
-  FolderOpen,
   GraduationCap,
   LayoutDashboard,
   LogOut,
@@ -12,6 +10,7 @@ import {
   Star,
   User,
   Wallet,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ROUTES } from "@/lib/routes";
@@ -19,13 +18,12 @@ import { useAuth } from "@/hooks/useAuth";
 
 const primaryItems = [
   { label: "Dashboard", icon: LayoutDashboard, to: ROUTES.INSTRUCTOR.DASHBOARD },
-  { label: "Projects", icon: FolderOpen, to: ROUTES.INSTRUCTOR.PROJECTS },
   { label: "Requests", icon: FileText, to: ROUTES.INSTRUCTOR.REQUESTS },
+  { label: "Instant Requests", icon: Zap, to: ROUTES.INSTRUCTOR.INSTANT_REQUESTS },
   { label: "Sessions", icon: CalendarClock, to: ROUTES.INSTRUCTOR.SESSIONS },
   { label: "Chat", icon: MessageSquareText, to: ROUTES.INSTRUCTOR.CHAT },
   { label: "Wallet", icon: Wallet, to: ROUTES.INSTRUCTOR.WALLET },
   { label: "Reviews", icon: Star, to: ROUTES.INSTRUCTOR.REVIEWS },
-  { label: "Notifications", icon: Bell, to: ROUTES.NOTIFICATIONS },
 ];
 
 const accountItems = [

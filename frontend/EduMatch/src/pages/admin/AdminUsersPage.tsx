@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { AxiosError } from "axios";
 import { CheckCircle2, Search, ShieldOff, XCircle } from "lucide-react";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
@@ -28,8 +29,16 @@ export function AdminUsersPage() {
     try {
       setUsers(await getAdminUsers({ search: search || undefined, role: role || undefined, status: status || undefined }));
       setError("");
-    } catch {
-      setError("Could not load users. Admin access is required.");
+    } catch (err) {
+      if (err instanceof AxiosError && err.response?.status === 403) {
+        setError("Admin access is required. Please log in with an admin account.");
+      } else if (err instanceof AxiosError && err.response?.status === 401) {
+        setError("Please log in again.");
+      } else if (err instanceof AxiosError && !err.response) {
+        setError("Cannot connect to server.");
+      } else {
+        setError("Could not load users.");
+      }
     } finally {
       setLoading(false);
     }

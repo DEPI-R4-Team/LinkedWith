@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.database import get_db
 from app.dependencies.auth import get_current_user
-from app.models import InstructorProfile, Review, Session as LearningSession, User
+from app.models import InstructorProfile, Review, Session as LearningSession, StudentProfile, User
 from app.schemas.user_schema import CurrentUserResponse, InstructorDetailResponse, InstructorListItemResponse, UserUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -126,16 +126,71 @@ def update_my_user(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> User:
-    if payload.full_name is not None:
-        current_user.full_name = payload.full_name
+    if current_user.status == "suspended":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Suspended users cannot update profiles.")
 
-    profile = current_user.student_profile if current_user.role == "student" else current_user.instructor_profile
-    if profile is not None:
-        if payload.phone is not None:
-            profile.phone = payload.phone
-        if payload.bio is not None:
-            profile.bio = payload.bio
+    if payload.full_name is not None:
+        current_user.full_name = payload.full_name.strip()
+
+    if payload.email is not None:
+        email = str(payload.email).strip().lower()
+        existing_user = db.scalar(select(User).where(User.email == email, User.id != current_user.id))
+        if existing_user is not None:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="A user with this email already exists.")
+        current_user.email = email
+
+    if current_user.role == "student":
+        profile = current_user.student_profile
+        if profile is None:
+            profile = StudentProfile(user_id=current_user.id)
+            db.add(profile)
+            db.flush()
+            current_user.student_profile = profile
+        update_profile_fields(
+            profile,
+            payload,
+            ["phone", "bio", "profile_image", "education_level", "university", "department", "preferred_language", "location"],
+        )
+    elif current_user.role == "instructor":
+        profile = current_user.instructor_profile
+        if profile is None:
+            profile = InstructorProfile(user_id=current_user.id)
+            db.add(profile)
+            db.flush()
+            current_user.instructor_profile = profile
+        update_profile_fields(
+            profile,
+            payload,
+            [
+                "phone",
+                "bio",
+                "profile_image",
+                "specialization",
+                "skills",
+                "experience",
+                "price_per_session",
+                "is_available_for_instant",
+            ],
+        )
 
     db.commit()
     db.refresh(current_user)
     return current_user
+
+
+def clean_string(value: str | None) -> str | None:
+    if value is None:
+        return None
+    trimmed = value.strip()
+    return trimmed or None
+
+
+def update_profile_fields(profile: StudentProfile | InstructorProfile, payload: UserUpdate, fields: list[str]) -> None:
+    values = payload.model_dump(exclude_unset=True)
+    for field in fields:
+        if field not in values:
+            continue
+        value = values[field]
+        if isinstance(value, str):
+            value = clean_string(value)
+        setattr(profile, field, value)

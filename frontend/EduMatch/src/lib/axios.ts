@@ -2,7 +2,7 @@ import axios from "axios";
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY } from "@/services/api";
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "",
   headers: { "Content-Type": "application/json" },
 });
 

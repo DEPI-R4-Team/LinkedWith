@@ -1,7 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   CalendarClock,
-  Bell,
   FileText,
   GraduationCap,
   LayoutDashboard,
@@ -11,7 +10,6 @@ import {
   Search,
   Settings,
   User,
-  Users,
   WalletCards,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -22,12 +20,10 @@ const primaryItems = [
   { label: "Dashboard", icon: LayoutDashboard, to: "/student/dashboard" },
   { label: "Create Request", icon: Plus, to: "/student/requests/create" },
   { label: "My Requests", icon: FileText, to: "/student/requests" },
-  { label: "Group Requests", icon: Users, to: ROUTES.STUDENT.GROUP_REQUESTS },
   { label: "Browse Instructors", icon: Search, to: "/student/instructors" },
   { label: "Chat", icon: MessageSquareText, to: "/student/chat" },
   { label: "Sessions", icon: CalendarClock, to: "/student/sessions" },
   { label: "Payments", icon: WalletCards, to: "/student/payments" },
-  { label: "Notifications", icon: Bell, to: ROUTES.NOTIFICATIONS },
 ];
 
 const accountItems = [

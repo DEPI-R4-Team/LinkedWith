@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class AdminStatsResponse(BaseModel):
@@ -50,7 +50,7 @@ class AdminInstructorProfileSummary(BaseModel):
 class AdminUserListItem(BaseModel):
     id: int
     full_name: str
-    email: EmailStr
+    email: str
     role: str
     status: str
     created_at: datetime
@@ -71,6 +71,9 @@ class AdminRequestListItem(BaseModel):
     created_at: datetime
     applications_count: int
     session_id: int | None = None
+    expires_at: datetime | None = None
+    accepted_instructor_id: int | None = None
+    accepted_instructor_name: str | None = None
 
 
 class AdminSessionListItem(BaseModel):
@@ -78,6 +81,7 @@ class AdminSessionListItem(BaseModel):
     request_id: int
     request_title: str | None = None
     request_type: str | None = None
+    request_expires_at: datetime | None = None
     student_id: int
     student_name: str | None = None
     instructor_id: int

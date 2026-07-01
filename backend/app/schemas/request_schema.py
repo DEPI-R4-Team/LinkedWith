@@ -8,6 +8,8 @@ from app.schemas.application_schema import ApplicationResponse
 
 RequestStatus = Literal[
     "open",
+    "instant_open",
+    "instant_accepted",
     "pending_instant",
     "accepted",
     "waiting_payment",
@@ -75,6 +77,8 @@ class RequestResponse(BaseModel):
     group_status: str | None = None
     status: RequestStatus
     accepted_instructor_id: int | None = None
+    accepted_at: datetime | None = None
+    urgency_level: str | None = None
     expires_at: datetime | None = None
     created_at: datetime
     updated_at: datetime

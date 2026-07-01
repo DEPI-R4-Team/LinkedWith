@@ -8,6 +8,8 @@ export type Conversation = {
   time: string;
   unread: number;
   online: boolean;
+  label?: string;
+  status?: string;
 };
 
 type ConversationItemProps = {
@@ -63,7 +65,19 @@ export function ConversationItem({
               <h3 className="truncate text-body-sm font-medium text-on-surface">
                 {conversation.name}
               </h3>
-              <p className="truncate text-label-md uppercase text-on-surface-variant">
+              <div className="mt-xs flex flex-wrap items-center gap-xs">
+                {conversation.label ? (
+                  <span className="rounded-full bg-primary/15 px-xs py-[2px] text-[10px] font-medium uppercase text-primary">
+                    {conversation.label}
+                  </span>
+                ) : null}
+                {conversation.status ? (
+                  <span className="rounded-full bg-surface-container-high px-xs py-[2px] text-[10px] font-medium uppercase text-on-surface-variant">
+                    {conversation.status}
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-xs truncate text-label-md uppercase text-on-surface-variant">
                 {conversation.role}
               </p>
             </div>

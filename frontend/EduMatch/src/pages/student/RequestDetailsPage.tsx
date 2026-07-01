@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   BookOpen,
   CalendarDays,
   GraduationCap,
@@ -12,6 +11,7 @@ import {
   WalletCards,
   Pencil,
 } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 import {
   InstructorApplicationCard,
   type InstructorApplication,
@@ -141,13 +141,7 @@ export function RequestDetailsPage() {
             <h1 className="mt-xs text-headline-lg text-on-surface">Request Details</h1>
           </div>
 
-          <Link
-            className="inline-flex h-10 items-center justify-center gap-xs rounded-md border border-secondary/40 px-md text-body-sm font-medium text-secondary transition hover:bg-secondary/10"
-            to="/student/requests"
-          >
-            <ArrowLeft className="size-4" />
-            Back to List
-          </Link>
+          <BackButton fallback="/student/requests" />
           <button
             className="inline-flex h-10 items-center justify-center gap-xs rounded-md border border-outline-variant px-md text-body-sm font-medium text-on-surface-variant transition hover:bg-surface-container-high hover:text-on-surface"
             onClick={() => setMessage("Edit request will be available later.")}
