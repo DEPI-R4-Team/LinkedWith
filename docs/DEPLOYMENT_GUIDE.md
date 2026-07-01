@@ -1,123 +1,201 @@
 # EduMatch Deployment Guide
 
-## Recommended Hosting
+This guide prepares EduMatch for a real online deployment while keeping local development unchanged.
+
+## 1. Recommended Hosting
 
 - Frontend: Vercel
 - Backend: Render or Railway
 - Database: Neon or Supabase PostgreSQL
 
-Use a hosted PostgreSQL database for deployment. Do not use local PostgreSQL for production.
+Use hosted PostgreSQL for production. Do not use local PostgreSQL for production.
 
-## Backend Environment Variables
+## 2. Database Deployment
 
-Set these variables in the backend hosting dashboard:
-
-```env
-DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DATABASE
-SECRET_KEY=change_this_to_a_strong_secret
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=1440
-FRONTEND_URL=https://your-frontend-domain.vercel.app
-```
-
-Do not commit real secrets. Keep production values only in the hosting provider environment settings.
-
-## Frontend Environment Variables
-
-Set this variable in the frontend hosting dashboard:
-
-```env
-VITE_API_BASE_URL=https://your-backend-domain.onrender.com
-```
-
-The frontend uses `VITE_API_BASE_URL` for API calls. Update it whenever the deployed backend URL changes.
-
-## Backend Deploy Steps
-
-1. Create a hosted PostgreSQL database.
-2. Set backend environment variables.
-3. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
+1. Create a PostgreSQL database on Neon or Supabase.
+2. Copy the production connection string.
+3. Use it as the backend `DATABASE_URL`.
 4. Run migrations against the hosted database:
 
 ```bash
 alembic upgrade head
 ```
 
-5. Start the backend:
+Production format:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+```
+
+Some providers may show a URL starting with `postgres://`. The backend normalizes that format, but `postgresql://` is preferred in environment variables and docs.
+
+Never commit the database password or production connection string.
+
+## 3. Backend Deployment
+
+Use Render or Railway.
+
+Backend root directory:
+
+```txt
+backend
+```
+
+Build command:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start command:
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
-Check:
+Required backend environment variables:
 
-- `/health`
-- `/docs`
-
-## Frontend Deploy Steps
-
-1. Set `VITE_API_BASE_URL` to the deployed backend URL.
-2. Install dependencies:
-
-```bash
-npm install
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+SECRET_KEY=your_strong_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=1440
+FRONTEND_URL=https://your-frontend-domain.vercel.app
+CORS_ORIGINS=https://your-frontend-domain.vercel.app,http://localhost:5173
 ```
 
-3. Build the frontend:
+Notes:
 
-```bash
-npm run build
+- `SECRET_KEY` must be a strong random value.
+- `FRONTEND_URL` should match the deployed Vercel domain exactly.
+- `CORS_ORIGINS` supports comma-separated origins.
+- Keep local origins in `CORS_ORIGINS` only if you need local frontend to call the deployed backend during testing.
+
+Health check endpoint:
+
+```txt
+/health
 ```
 
-4. Use this output directory:
+Expected response:
+
+```json
+{"status":"ok","app":"EduMatch API"}
+```
+
+API docs endpoint:
+
+```txt
+/docs
+```
+
+## 4. Frontend Deployment
+
+Use Vercel.
+
+Frontend root directory:
+
+```txt
+frontend/EduMatch
+```
+
+Build command:
+
+```bash
+npm install && npm run build
+```
+
+Output directory:
 
 ```txt
 dist
 ```
 
-## CORS
-
-Set backend `FRONTEND_URL` to the deployed frontend origin exactly, for example:
+Required frontend environment variable:
 
 ```env
-FRONTEND_URL=https://your-frontend-domain.vercel.app
+VITE_API_BASE_URL=https://your-backend-domain.com
 ```
 
-If this value is wrong, browser requests from the frontend may be blocked.
+The frontend uses Vite, so environment variables exposed to the browser must start with `VITE_`.
 
-## Production Admin Account
+React Router refresh support is configured in:
 
-Create the first admin account manually with the optional script:
+```txt
+frontend/EduMatch/vercel.json
+```
+
+It rewrites all routes to `index.html`, so direct refreshes like `/student/dashboard` and `/admin/users` work on Vercel.
+
+## 5. Run Migrations on Production
+
+Run migrations once after setting the production backend environment variables.
+
+On Render or Railway, open a shell or one-time command in the backend service and run:
 
 ```bash
-ADMIN_EMAIL=admin@example.com ADMIN_FULL_NAME="EduMatch Admin" ADMIN_PASSWORD="replace-with-strong-password" python scripts/create_admin.py
+alembic upgrade head
 ```
 
-On Windows PowerShell:
+Do not automatically run migrations on every server start unless the team explicitly chooses that deployment strategy later.
+
+## 6. Create First Admin
+
+Public admin registration remains blocked. Create the first admin manually with the script.
+
+Set these environment variables:
+
+```env
+ADMIN_EMAIL=admin@example.com
+ADMIN_FULL_NAME=EduMatch Admin
+ADMIN_PASSWORD=secure_password_here
+```
+
+Then run:
+
+```bash
+python scripts/create_admin.py
+```
+
+Windows PowerShell example:
 
 ```powershell
 $env:ADMIN_EMAIL="admin@example.com"
 $env:ADMIN_FULL_NAME="EduMatch Admin"
-$env:ADMIN_PASSWORD="replace-with-strong-password"
+$env:ADMIN_PASSWORD="secure_password_here"
 python scripts/create_admin.py
 ```
 
-The script does not contain credentials. It reads values from environment variables, hashes the password, and creates the admin only if the email does not already exist.
+Use a strong password. Do not commit the admin password. The script hashes the password and does not print the password or password hash.
 
-## Final Pre-Demo Checklist
+## 7. Post-Deployment Checklist
 
-- Hosted PostgreSQL is created.
-- Backend environment variables are set.
-- Frontend environment variables are set.
-- `alembic upgrade head` has run on the hosted database.
-- `/health` returns a successful response.
-- `/docs` loads.
-- First admin account is created safely.
-- Student, instructor, and admin login are tested.
-- Normal, group, and instant request flows are tested.
-- Simulated payments, chat, reviews, notifications, and admin actions are tested.
+- Backend `/health` works.
+- Backend `/docs` works.
+- Frontend opens on Vercel.
+- `VITE_API_BASE_URL` points to the deployed backend.
+- Backend `FRONTEND_URL` points to the deployed frontend.
+- CORS does not block frontend requests.
+- Register/login works.
+- Admin login works.
+- `/admin/dashboard` works.
+- `/admin/users` works for admin and is blocked for students/instructors.
+- Normal request flow works.
+- Group request flow works.
+- Instant request flow works.
+- Payment simulation works.
+- Chat works.
+- Notifications work.
+
+## Manual Deployment Order
+
+1. Create the hosted PostgreSQL database.
+2. Copy the database URL and set backend environment variables.
+3. Deploy the backend on Render or Railway.
+4. Run `alembic upgrade head` against production.
+5. Check backend `/health` and `/docs`.
+6. Create the first admin with `python scripts/create_admin.py`.
+7. Deploy the frontend on Vercel.
+8. Set `VITE_API_BASE_URL` to the backend URL.
+9. Check frontend login and role-based dashboards.
+10. Test normal, group, instant, payment, chat, notification, and admin flows.
